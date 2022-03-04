@@ -1,7 +1,13 @@
-# BB_Inventory_Pinger
-Bot that scrapes Best Buy blog website and pings user through e-mail in the event of an inventory update. In other words, this will make up for Best Buy's lack of communication.
+# Techventory Pinger
+Bot that scrapes the following websites for inventory:
 
+1. Canada Computers
+2. Memory Express
+3. Best Buy
+
+Pings user when item from specified URL is in stock.
 
 Dependencies:
 
-Beautiful Soup4 4.10.0
+Beautiful Soup 4.10.0
+Requests 2.27.1
