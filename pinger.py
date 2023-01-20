@@ -2,12 +2,25 @@ from bs4 import BeautifulSoup
 from html.parser import HTMLParser
 from time import localtime
 from simpleaudio import WaveObject
+from requests import get
 
 api = BeautifulSoup()
 
+class Config:
+    def __init__(self):
+        self.links = dict()
+        self.interval = 1800
 
-def ping_user():
-    pass
+    def add_product(self):
+        while True:
+            new_product_url = input("Enter URL to product (enter 'x' when finished):    ")
+            if (new_product == 'x'):
+                break
+            name = get_product_name(new_product_url)
+            self.links[name] = new_product_url
+        update_config(self.__dict__)
+
+
 
 def play_sound(sound_file):
     try:
@@ -22,9 +35,14 @@ def play_sound(sound_file):
     finally:
         return
 
-
-
-
+def html_request(url):
+    try:
+        new_request = get(url)
+    except Exception:
+        print ("Error making HTTP request")
+        return False
+    else:
+        return BeautifulSoup(new_request.text, "html.parser")
 
 def site_is_valid(website_input):
     if (len(website_input) == 0 or not "www." in website_input):
@@ -43,7 +61,6 @@ def site_is_valid(website_input):
         except Exception:
             return False
 
-
 #Halts program for configured time before making another request
 def wait():
     global continue_condition
@@ -53,13 +70,18 @@ def wait():
         else:
             break
 
+def get_product_name(url):
+    html_object = html_request(url)
+    if not (html_object):
+        return
+    html_object = BeautifulSoup(html_object.text, "html.parser")
+    product_name = html_object.find_all("h1", class_="productName_2KoPa")
+    return product_name.string
+
+
 
 def memory_express_checker():
     pass
-
-
-
-
 def best_buy_checker():
     pass
 def canada_computers_checker():
@@ -80,8 +102,6 @@ def checker_director(user_input):
     else:
         print ("Unrecognized site or input.")
         return
-    
-    
 
 def main():
     pass
