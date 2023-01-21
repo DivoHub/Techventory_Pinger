@@ -4,8 +4,9 @@ from time import localtime
 from simpleaudio import WaveObject
 from requests import get
 from json import dumps, load
+from threading import Thread, active_count
 
-api = BeautifulSoup()
+
 
 class Config:
     def __init__(self):
@@ -122,12 +123,45 @@ def checker_director(user_input):
         print ("Unrecognized site or input.")
         return
 
+
+
+
+
+def looper():
+    global continue_condition
+    while continue_condition:
+        config.load_config()
+        checker()
+        wait()
+
+#start application
+def start():
+    if (active_count() > 1):
+        print("Checker already running. \n")
+        return
+    print ("Starting checker \n")
+    global continue_condition
+    continue_condition = True
+    process = Thread(target=looper)
+    process.start()
+
+#stop application
+def stop():
+    if (active_count() == 1):
+        print ("Checker not running.\n")
+        return
+    print ("Stopping checker.\n")
+    global continue_condition
+    continue_condition = False
+
 def main():
     command_dict = {"instock": print_in_stock,
                     "new": config.add_product,
                     "del": config.delete_product,
                     "help": print_manual,
-                    "fresh": config_reset}
+                    "fresh": config_reset,
+                    "start": start,
+                    "stop": stop}
 
     while True:
         print ("-------------------------")
@@ -147,4 +181,6 @@ def main():
 
 if __name__ == '__main__':
     global in_stock_list
+    global continue_condition
+    config = Config()
     in_stock_list = []
