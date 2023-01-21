@@ -3,6 +3,7 @@ from html.parser import HTMLParser
 from time import localtime
 from simpleaudio import WaveObject
 from requests import get
+from json import dumps, load
 
 api = BeautifulSoup()
 
@@ -20,6 +21,20 @@ class Config:
             self.links[name] = new_product_url
         update_config(self.__dict__)
 
+    def load_config(self):
+        try
+            config_object = open('config.json', 'r')
+        except FileNotFoundError:
+            print ("No config file found. Creating new config...")
+            config_object = open('config.json', 'x')
+            config_object.write(dumps(self.__dict__, indent=2))
+            config_object.close()
+        except Exception:
+            print ("Error with loading configuration")
+        finally:
+            json_object = load(config_object)
+            self.links = json_object("links")
+            self.interval = json_object("interval")
 
 
 def play_sound(sound_file):
@@ -79,10 +94,14 @@ def get_product_name(url):
     return product_name.string
 
 
+def best_buy_checker(url):
+    html_object = html_request(url)
+    html_object = html_object.find("span", class_="shippingAvailability_2X3xt shippingAvailabilityTitle_2sixU")
+    if (html_object.string == "Available to ship"):
+
+
 
 def memory_express_checker():
-    pass
-def best_buy_checker():
     pass
 def canada_computers_checker():
     pass
@@ -104,7 +123,28 @@ def checker_director(user_input):
         return
 
 def main():
-    pass
+    command_dict = {"instock": print_in_stock,
+                    "new": config.add_product,
+                    "del": config.delete_product,
+                    "help": print_manual,
+                    "fresh": config_reset}
+
+    while True:
+        print ("-------------------------")
+        user_input = input()
+        print ("-------------------------")
+        if (user_input in command_dict.keys()):
+            command_dict[user_input]()
+        elif (user_input == "exit"):
+            stop()
+            print("Program exiting.")
+            break
+        elif (user_input == ""):
+            print ("")
+        else:
+            print ("Unknown command.")
 
 
 if __name__ == '__main__':
+    global in_stock_list
+    in_stock_list = []
