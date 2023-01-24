@@ -23,7 +23,7 @@ class Config:
         update_config(self.__dict__)
 
     def load_config(self):
-        try
+        try:
             config_object = open('config.json', 'r')
         except FileNotFoundError:
             print ("No config file found. Creating new config...")
@@ -36,7 +36,13 @@ class Config:
             json_object = load(config_object)
             self.links = json_object("links")
             self.interval = json_object("interval")
+            config_object.close()
 
+    def update_config(self):
+        new_file = open('config.json', 'w')
+        json_object = dumps(self.__dict__, indent=2)
+        new_file.write(json_object)
+        new_file.close()
 
 def play_sound(sound_file):
     try:
@@ -67,15 +73,15 @@ def site_is_valid(website_input):
     try:
         status_code = get(website_input).status_code
         if (status_code >= 200 and status_code <= 299):
-                return True
-            elif (status_code == 404):
-                print("Invalid Server entered.")
-                return False
-            else:
-                print("Connection error")
-                return False
-        except Exception:
+            return True
+        elif (status_code == 404):
+            print("Invalid Server entered.")
             return False
+        else:
+            print("Connection error")
+            return False
+    except Exception:
+        return False
 
 #Halts program for configured time before making another request
 def wait():
@@ -99,6 +105,7 @@ def best_buy_checker(url):
     html_object = html_request(url)
     html_object = html_object.find("span", class_="shippingAvailability_2X3xt shippingAvailabilityTitle_2sixU")
     if (html_object.string == "Available to ship"):
+        print ("Item in stock")
 
 
 
@@ -184,3 +191,5 @@ if __name__ == '__main__':
     global continue_condition
     config = Config()
     in_stock_list = []
+    config.load_config()
+    main()
