@@ -130,10 +130,6 @@ def checker_director(user_input):
         print ("Unrecognized site or input.")
         return
 
-
-
-
-
 def looper():
     global continue_condition
     while continue_condition:
