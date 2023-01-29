@@ -102,10 +102,16 @@ def get_product_name(url):
 
 
 def best_buy_checker(url):
+    global in_stock_list
     html_object = html_request(url)
-    html_object = html_object.find("span", class_="shippingAvailability_2X3xt shippingAvailabilityTitle_2sixU")
+    try:
+        html_object = html_object.find("span", class_="availabilityMessage_3ZSBM container_1DAvI")
+    except Exception:
+        html_object = html_object.find("span", class_="availabilityMessageTitle_3FLAg")
     if (html_object.string == "Available to ship"):
-        print ("Item in stock")
+        print (f"Item in stock")
+        play_sound("instock.mp3")
+        in_stock_list.append()
 
 
 
