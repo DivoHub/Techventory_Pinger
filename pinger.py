@@ -102,7 +102,7 @@ def get_product_name(url):
 
 
 def best_buy_checker(url):
-    global in_stock_list
+    global in_stock_dict
     html_object = html_request(url)
     try:
         html_object = html_object.find("span", class_="availabilityMessage_3ZSBM container_1DAvI")
@@ -110,13 +110,28 @@ def best_buy_checker(url):
         html_object = html_object.find("span", class_="availabilityMessageTitle_3FLAg")
     if (html_object.string == "Available to ship"):
         print (f"Item in stock")
+        return True
+    else:
+        return False
         play_sound("instock.mp3")
         in_stock_list.append()
 
 
 
-def memory_express_checker():
-    pass
+def memory_express_checker(url):
+    global in_stock_dict
+    html_object = html_request(url)
+    try:
+        html_object = html_object.find("span", class_="c-capr-inventory-store__availability InventoryState_OutOfStock")
+    except Exception:
+        html_object = html_object.find("span", class_="c-capr-inventory-store__availability InventoryState_InStock")
+    if (html_object.string == "Out of Stock"):
+        return False
+    else:
+        return True
+
+
+
 def canada_computers_checker():
     pass
 def newegg_checker():
@@ -189,9 +204,9 @@ def main():
 
 
 if __name__ == '__main__':
-    global in_stock_list
+    global in_stock_dict
     global continue_condition
     config = Config()
-    in_stock_list = []
+    in_stock_dict = dict()
     config.load_config()
     main()
