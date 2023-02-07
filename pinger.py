@@ -131,12 +131,18 @@ def memory_express_checker(url):
         return True
 
 
-
 def canada_computers_checker():
-    pass
-def newegg_checker():
-    pass
 
+def newegg_checker():
+    global in_stock_dict
+    html_object = html_request()
+    try:
+        html_object = html_object.find("div", class_="product-inventory")
+        html_object = html_object.find_all("strong")
+    except Exception:
+        return False
+    if (html_object == "In Stock"):
+        return True
 
 def checker_director(user_input):
     if ("bestbuy" in user_input):
