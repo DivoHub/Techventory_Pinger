@@ -132,6 +132,18 @@ def memory_express_checker(url):
 
 
 def canada_computers_checker():
+    global in_stock_dict
+    html_object = html_request(url)
+    try:
+        html_object = html_object.find("span", id_="storeinfo")
+    except Exception:
+        html_object = html_object.find("span", class_="storeinfo mb-1")
+    if ("sold out" in html_object.string.casefold()):
+        return False
+    elif ("available" in html_object.string.casefold()):
+        return True
+    else:
+        return None
 
 def newegg_checker():
     global in_stock_dict
