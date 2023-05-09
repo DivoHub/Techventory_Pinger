@@ -80,6 +80,14 @@ def best_buy_checker(url):
         play_sound("instock.mp3")
         in_stock_list.append()
 
+def amazon_checker(url):
+    global in_stock_dict
+    html_object = html_request(url)
+    try:
+        html_object = html_object.find("span", class_="a-offscreen")
+    except Exception:
+        html_object
+
 
 
 def memory_express_checker(url):
