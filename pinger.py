@@ -64,10 +64,26 @@ def get_product_name(url):
     product_name = html_object.find_all("h1", class_="productName_2KoPa")
     return product_name.string
 
+def best_buy_in_stock(html_object):
+    global in_stock_dict
+    pass
+
+def amazon_in_stock(html_object):
+    global in_stock_dict
+    pass
+
+def memory_express_in_stock(html_object):
+    global in_stock_dict
+    pass
+
+def canada_computers_in_stock(html_object):
+    global in_stock_dict
+    pass
 
 def best_buy_checker(url):
-    global in_stock_dict
     html_object = html_request(url)
+    html_object = BeautifulSoup(html_object.text, "html.parser")
+    best_buy_in_stock(html_object)
     try:
         html_object = html_object.find("span", class_="availabilityMessage_3ZSBM container_1DAvI")
     except Exception:
@@ -83,16 +99,21 @@ def best_buy_checker(url):
 def amazon_checker(url):
     global in_stock_dict
     html_object = html_request(url)
+    html_object = BeautifulSoup(html_object.text, "html.parser")
     try:
-        html_object = html_object.find("span", class_="a-offscreen")
+        price = html_object.find("span", class_="a-offscreen").string
     except Exception:
-        html_object
+        return False
+    else:
+        return price
+
 
 
 
 def memory_express_checker(url):
     global in_stock_dict
     html_object = html_request(url)
+    html_object = BeautifulSoup(html_object.text, "html.parser")
     try:
         html_object = html_object.find("span", class_="c-capr-inventory-store__availability InventoryState_OutOfStock")
     except Exception:
@@ -106,6 +127,7 @@ def memory_express_checker(url):
 def canada_computers_checker():
     global in_stock_dict
     html_object = html_request(url)
+    html_object = BeautifulSoup(html_object.text, "html.parser")
     try:
         html_object = html_object.find("span", id_="storeinfo")
     except Exception:
@@ -120,6 +142,7 @@ def canada_computers_checker():
 def newegg_checker():
     global in_stock_dict
     html_object = html_request()
+    html_object = BeautifulSoup(html_object.text, "html.parser")
     try:
         html_object = html_object.find("div", class_="product-inventory")
         html_object = html_object.find_all("strong")
