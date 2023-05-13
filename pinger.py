@@ -70,7 +70,12 @@ def best_buy_in_stock(html_object):
 
 def amazon_in_stock(html_object):
     global in_stock_dict
-    pass
+    try:
+        int(html_object.find("span", class_="a-offscreen").string)
+    except Exception:
+        return False
+    else:
+        return True
 
 def memory_express_in_stock(html_object):
     global in_stock_dict
@@ -106,8 +111,6 @@ def amazon_checker(url):
         return False
     else:
         return price
-
-
 
 
 def memory_express_checker(url):
