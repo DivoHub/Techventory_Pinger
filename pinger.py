@@ -21,6 +21,12 @@ def play_sound(sound_file):
     finally:
         return
 
+#Prints help manual to console
+def print_manual():
+    manual = open('help.txt', 'r')
+    print (manual.read())
+    manual.close()
+
 def html_request(url):
     try:
         new_request = get(url)

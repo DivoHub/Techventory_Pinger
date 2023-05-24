@@ -2,6 +2,7 @@ class Config:
     def __init__(self):
         self.links = dict()
         self.interval = 1800
+        self.logger_on = False
 
     def add_product(self):
         while True:
@@ -32,4 +33,11 @@ class Config:
         new_file = open('config.json', 'w')
         json_object = dumps(self.__dict__, indent=2)
         new_file.write(json_object)
+        new_file.close(
+
+
+    def create_config():
+        print(f"{Colour().default} Creating new config.json file.")
+        new_file = open('config.json', 'x')
         new_file.close()
+        print("New config.json file created. Type and enter 'help' for info on adding players and servers.")
