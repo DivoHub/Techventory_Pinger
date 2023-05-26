@@ -7,7 +7,7 @@ from json import dumps, load
 from threading import Thread, active_count
 
 
-
+#takes sound file with extension as argument then plays corresponding sound
 def play_sound(sound_file):
     try:
         audio_object = WaveObject.from_wave_file(f"./sounds/{sound_file}")
@@ -27,6 +27,7 @@ def print_manual():
     print (manual.read())
     manual.close()
 
+
 def html_request(url):
     try:
         new_request = get(url)
@@ -36,6 +37,7 @@ def html_request(url):
     else:
         return BeautifulSoup(new_request.text, "html.parser")
 
+#check if site returns a 200 status code
 def site_is_valid(website_input):
     if (len(website_input) == 0 or not "www." in website_input):
         print ("Invalid website given.")
@@ -62,6 +64,7 @@ def wait():
         else:
             break
 
+#returns string containing the title of the part given by website / makes HTTP request
 def get_product_name(url):
     html_object = html_request(url)
     if not (html_object):

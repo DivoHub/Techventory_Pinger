@@ -33,7 +33,7 @@ class Config:
         new_file = open('config.json', 'w')
         json_object = dumps(self.__dict__, indent=2)
         new_file.write(json_object)
-        new_file.close(
+        new_file.close()
 
 
     def create_config():
