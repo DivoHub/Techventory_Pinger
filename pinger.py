@@ -1,25 +1,12 @@
 from bs4 import BeautifulSoup
 from html.parser import HTMLParser
 from time import localtime
-from simpleaudio import WaveObject
 from requests import get
 from json import dumps, load
 from threading import Thread, active_count
 
 
-#takes sound file with extension as argument then plays corresponding sound
-def play_sound(sound_file):
-    try:
-        audio_object = WaveObject.from_wave_file(f"./sounds/{sound_file}")
-        play = audio_object.play()
-        play.wait_done()
-        play.stop()
-    except FileNotFoundError:
-        print(f"{sound_file} file not found.")
-    except Exception:
-        print("Error with playing notification audio.")
-    finally:
-        return
+
 
 #Prints help manual to console
 def print_manual():
@@ -57,7 +44,6 @@ def site_is_valid(website_input):
 
 #Halts program for configured time before making another request
 def wait():
-    global continue_condition
     for timer in range(config.interval):
         if continue_condition:
             sleep(1)
@@ -74,11 +60,9 @@ def get_product_name(url):
     return product_name.string
 
 def best_buy_in_stock(html_object):
-    global in_stock_dict
     pass
 
 def amazon_in_stock(html_object):
-    global in_stock_dict
     try:
         int(html_object.find("span", class_="a-offscreen").string)
     except Exception:
@@ -87,11 +71,9 @@ def amazon_in_stock(html_object):
         return True
 
 def memory_express_in_stock(html_object):
-    global in_stock_dict
     pass
 
 def canada_computers_in_stock(html_object):
-    global in_stock_dict
     pass
 
 def looper():
@@ -147,8 +129,6 @@ def main():
 
 
 if __name__ == '__main__':
-    global in_stock_dict
-    global continue_condition
     config = Config()
     in_stock_dict = dict()
     config.load_config()
