@@ -77,7 +77,6 @@ def canada_computers_in_stock(html_object):
     pass
 
 def looper():
-    global continue_condition
     while continue_condition:
         config.load_config()
         checker()

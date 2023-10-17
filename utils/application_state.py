@@ -13,3 +13,9 @@ class ApplicationState:
         self.in_stock_dict = {}
         self.error_count = 0
 
+    def toggle_continuing(self):
+        if (self.continuing):
+            self.continuing = False
+        else:
+            self.continuing = True
+

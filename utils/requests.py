@@ -1,6 +1,8 @@
-def best_buy_checker(url):
-    html_object = html_request(url)
-    html_object = BeautifulSoup(html_object.text, "html.parser")
+from requests import get
+from bs4 import BeautifulSoup
+
+
+def best_buy_scraper(url):
     best_buy_in_stock(html_object)
     try:
         html_object = html_object.find("span", class_="availabilityMessage_3ZSBM container_1DAvI")
@@ -14,10 +16,7 @@ def best_buy_checker(url):
         play_sound("instock.mp3")
         in_stock_list.append()
 
-def amazon_checker(url):
-    global in_stock_dict
-    html_object = html_request(url)
-    html_object = BeautifulSoup(html_object.text, "html.parser")
+def amazon_scraper(url):
     try:
         price = html_object.find("span", class_="a-offscreen").string
     except Exception:
@@ -26,10 +25,7 @@ def amazon_checker(url):
         return price
 
 
-def memory_express_checker(url):
-    global in_stock_dict
-    html_object = html_request(url)
-    html_object = BeautifulSoup(html_object.text, "html.parser")
+def memory_express_scraper(url):
     try:
         html_object = html_object.find("span", class_="c-capr-inventory-store__availability InventoryState_OutOfStock")
     except Exception:
@@ -40,10 +36,7 @@ def memory_express_checker(url):
         return True
 
 
-def canada_computers_checker():
-    global in_stock_dict
-    html_object = html_request(url)
-    html_object = BeautifulSoup(html_object.text, "html.parser")
+def canada_computers_scraper():
     try:
         html_object = html_object.find("span", id_="storeinfo")
     except Exception:
@@ -55,10 +48,7 @@ def canada_computers_checker():
     else:
         return None
 
-def newegg_checker():
-    global in_stock_dict
-    html_object = html_request()
-    html_object = BeautifulSoup(html_object.text, "html.parser")
+def newegg_scraper():
     try:
         html_object = html_object.find("div", class_="product-inventory")
         html_object = html_object.find_all("strong")
@@ -67,7 +57,26 @@ def newegg_checker():
     if (html_object == "In Stock"):
         return True
 
-def checker_director(user_input):
+def newegg_scraper():
+    try:
+        html_object = html_object.find("div", class_="product-inventory")
+        html_object = html_object.find_all("strong")
+    except Exception:
+        return False
+    if (html_object == "In Stock"):
+        return True
+
+def vuugo_checker():
+    try:
+        html_object = html_object.find("div", id="product-availability")
+        html_object = html_object.find_all("span")
+    except Exception:
+        return False
+    if (html_object == "In Stock"):
+        return True
+
+
+def website_director(user_input):
     if ("bestbuy" in user_input):
         best_buy_checker()
     elif ("memoryexpress" in user_input):
@@ -79,3 +88,14 @@ def checker_director(user_input):
     else:
         print ("Unrecognized site or input.")
         return
+
+
+def request_beautify(link):
+    try:
+        html_object = get(link)
+    except Exception:
+        print ("Error with connection.")
+    else:
+        return BeautifulSoup(html_object.text, "html.parser")
+
+
