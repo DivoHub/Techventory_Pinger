@@ -24,24 +24,6 @@ def html_request(url):
     else:
         return BeautifulSoup(new_request.text, "html.parser")
 
-#check if site returns a 200 status code
-def site_is_valid(website_input):
-    if (len(website_input) == 0 or not "www." in website_input):
-        print ("Invalid website given.")
-        return False
-    try:
-        status_code = get(website_input).status_code
-        if (status_code >= 200 and status_code <= 299):
-            return True
-        elif (status_code == 404):
-            print("Invalid Server entered.")
-            return False
-        else:
-            print("Connection error")
-            return False
-    except Exception:
-        return False
-
 #Halts program for configured time before making another request
 def wait():
     for timer in range(config.interval):
