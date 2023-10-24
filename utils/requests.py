@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 def best_buy_scraper(url):
     best_buy_in_stock(html_object)
     try:
+        html_object = request_beautify(link)
         html_object = html_object.find("span", class_="availabilityMessage_3ZSBM container_1DAvI")
     except Exception:
         html_object = html_object.find("span", class_="availabilityMessageTitle_3FLAg")
@@ -18,6 +19,7 @@ def best_buy_scraper(url):
 
 def amazon_scraper(url):
     try:
+        html_object = request_beautify(link)
         price = html_object.find("span", class_="a-offscreen").string
     except Exception:
         return False
@@ -25,8 +27,9 @@ def amazon_scraper(url):
         return price
 
 
-def memory_express_scraper(url):
+def memory_express_scraper(link):
     try:
+        html_object = request_beautify(link)
         html_object = html_object.find("span", class_="c-capr-inventory-store__availability InventoryState_OutOfStock")
     except Exception:
         html_object = html_object.find("span", class_="c-capr-inventory-store__availability InventoryState_InStock")
@@ -38,6 +41,7 @@ def memory_express_scraper(url):
 
 def canada_computers_scraper():
     try:
+        html_object = request_beautify(link)
         html_object = html_object.find("span", id_="storeinfo")
     except Exception:
         html_object = html_object.find("span", class_="storeinfo mb-1")
@@ -59,6 +63,7 @@ def newegg_scraper():
 
 def newegg_scraper():
     try:
+        html_object = request_beautify(link)
         html_object = html_object.find("div", class_="product-inventory")
         html_object = html_object.find_all("strong")
     except Exception:
@@ -66,8 +71,9 @@ def newegg_scraper():
     if (html_object == "In Stock"):
         return True
 
-def vuugo_checker():
+def vuugo_checker(link):
     try:
+        html_object = request_beautify(link)
         html_object = html_object.find("div", id="product-availability")
         html_object = html_object.find_all("span")
     except Exception:
