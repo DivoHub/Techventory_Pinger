@@ -61,15 +61,25 @@ def newegg_scraper():
     if (html_object == "In Stock"):
         return True
 
-def newegg_scraper():
+def newegg_scraper(link):
     try:
         html_object = request_beautify(link)
-        html_object = html_object.find("div", class_="product-inventory")
-        html_object = html_object.find_all("strong")
+        price = html_object.find("li", class_="price-current")
+        stock = html_object.find("div", class_="flags-body has-icon-left fa-exclamation-triangle").find("span").string
     except Exception:
         return False
-    if (html_object == "In Stock"):
-        return True
+    else:
+        return (stock, price)
+
+def pc_canada_checker(link):
+    try:
+        html_object = request_beautify(link)
+        stock = html_object.find("p", id="stock-msg").string
+        price = html_object.find("p", class_"d-flex align-items-center mb-0 text-red-500 fs-3xl fs-lg-4xl fs-xxxl-5xl fw-bold").string
+    except Exception:
+        return None
+    else:
+        return (stock, price)
 
 def vuugo_checker(link):
     try:
