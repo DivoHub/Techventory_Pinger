@@ -22,9 +22,9 @@ def amazon_scraper(url):
         html_object = request_beautify(link)
         price = html_object.find("span", class_="a-offscreen").string
     except Exception:
-        return False
+        return None
     else:
-        return price
+        return (stock, price)
 
 
 def memory_express_scraper(link):
@@ -42,15 +42,12 @@ def memory_express_scraper(link):
 def canada_computers_scraper():
     try:
         html_object = request_beautify(link)
-        html_object = html_object.find("span", id_="storeinfo")
+        price = html_object.find("strong").find("span", class_="h2-big")
+        stock = html_object.find("div", id="onlineinfo").find("div",class_="mb-0").find("p")
     except Exception:
-        html_object = html_object.find("span", class_="storeinfo mb-1")
-    if ("sold out" in html_object.string.casefold()):
-        return False
-    elif ("available" in html_object.string.casefold()):
-        return True
-    else:
         return None
+    else:
+        return (stock, price)
 
 def newegg_scraper():
     try:
