@@ -41,22 +41,6 @@ def get_product_name(url):
     product_name = html_object.find_all("h1", class_="productName_2KoPa")
     return product_name.string
 
-def best_buy_in_stock(html_object):
-    pass
-
-def amazon_in_stock(html_object):
-    try:
-        int(html_object.find("span", class_="a-offscreen").string)
-    except Exception:
-        return False
-    else:
-        return True
-
-def memory_express_in_stock(html_object):
-    pass
-
-def canada_computers_in_stock(html_object):
-    pass
 
 def looper():
     while continue_condition:
