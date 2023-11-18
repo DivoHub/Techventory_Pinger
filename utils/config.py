@@ -12,22 +12,37 @@ class Config:
             name = get_product_name(new_product_url)
             self.links[name] = new_product_url
         update_config(self.__dict__)
-
-    def load_config(self):
+        
+    #loader for config.json file
+    def config_fetcher(self):
         try:
-            config_object = open('config.json', 'r')
+            playerlist_file = open('./config.json', 'r')
+            json_object = load(playerlist_file)
         except FileNotFoundError:
-            print ("No config file found. Creating new config...")
-            config_object = open('config.json', 'x')
-            config_object.write(dumps(self.__dict__, indent=2))
-            config_object.close()
+            logging.warning(f"{Colour().error} No config.json file found. {Colour().default}")
+            create_config()
+            self.initialize()
+            return None
         except Exception:
-            print ("Error with loading configuration")
-        finally:
-            json_object = load(config_object)
-            self.links = json_object("links")
-            self.interval = json_object("interval")
-            config_object.close()
+            logging.error(f"{Colour().error} Error loading config.json file\nPlease fix any issues with config file before starting checker.{Colour().default}")
+            self.__init__()
+            return None
+        else:
+            playerlist_file.close()
+            return json_object
+
+    #loads config.json values / Initializes a config.json file if one is not found
+    def load_config(self):
+        json_object = self.config_fetcher()
+        if (json_object == None):
+            return
+        if not (self.config_is_valid(json_object)):
+            return
+        self.players = json_object["players"]
+        self.servers = json_object["servers"]
+        self.interval = json_object["interval"]
+        self.logger_on = bool(json_object["logger_on"])
+        self.logall_on = bool(json_object["logall_on"])
 
     def update_config(self):
         new_file = open('config.json', 'w')
