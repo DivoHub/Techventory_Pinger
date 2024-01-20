@@ -12,7 +12,7 @@ class Config:
             name = get_product_name(new_product_url)
             self.links[name] = new_product_url
         update_config(self.__dict__)
-        
+
     #loader for config.json file
     def config_fetcher(self):
         try:

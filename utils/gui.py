@@ -1,16 +1,27 @@
 import tkinter as tk
 
-
-class GUI:
-    def __init__(self):
-        self.root = tk.TK()
-        self.entry1 = tk.Entry(self)
-
+# Create the main window
 root = tk.Tk()
-root.geometry("600x600")
 root.title("Techping")
 
-heading = tk.Label(root, text="Techping", font=('Courier New', 16))
-heading.pack(pady=10)
+# Set the geometry of the window (width x height)
+root.geometry("400x300")
 
+# Create a header label
+header = tk.Label(root, text="Techping", font=("Arial", 24))
+header.pack()
+
+# Names of the stores to display
+stores = ["Amazon", "Canada Computers", "Memory Express", "Best Buy", "Vuugo", "Newegg"]
+
+# Function to create rows with store names
+def create_row(text):
+    label = tk.Label(root, text=text, font=("Arial", 16))
+    label.pack(expand=True)
+
+# Create rows for each store
+for store in stores:
+    create_row(store)
+
+# Start the GUI event loop
 root.mainloop()
