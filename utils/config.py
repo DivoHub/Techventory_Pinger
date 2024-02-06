@@ -1,3 +1,35 @@
+from bs4 import BeautifulSoup
+
+class Product:
+    def __init__(self):
+        self.link = str()
+        self.name = str()
+        self.vendor = str()
+        self.price = int()
+
+    def get_link(self, soup):
+        return soup.select_one('.br-titleClickWrap')['h']
+
+    def get_name(self, soup):
+        return soup.select_one('.br-pdItemName-noHover span').get_text(strip=True)
+
+    def get_vendor(self, soup):
+        return soup.select_one('.br-sellersCite').get_text(strip=True)
+
+    def get_price(self, soup):
+        return soup.select_one('.pd-price').get_text(strip=True)
+
+    def product_initialize(self, html):
+        soup = BeautifulSoup(html, 'html.parser')
+        self.link = get_link(soup)
+        self.name = get_name(soup)
+        self.vendor = get_vendor(soup)
+        self.price = get_price(soup)
+
+
+
+
+
 class Config:
     def __init__(self):
         self.links = dict()
