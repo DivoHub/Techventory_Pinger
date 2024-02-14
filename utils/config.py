@@ -27,9 +27,6 @@ class Product:
         self.price = get_price(soup)
 
 
-
-
-
 class Config:
     def __init__(self):
         self.links = dict()

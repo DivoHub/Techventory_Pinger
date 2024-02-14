@@ -1,15 +1,15 @@
-from simpleaudio import WaveObject
+import pygame
 
-#takes sound file with extension as argument then plays corresponding sound
+# takes sound file with extension as an argument then plays the corresponding sound
 def play_sound(sound_file):
     try:
-        audio_object = WaveObject.from_wave_file(f"./sounds/{sound_file}")
-        play = audio_object.play()
-        play.wait_done()
-        play.stop()
+        pygame.mixer.init()
+        sound = pygame.mixer.Sound(f"./sounds/{sound_file}")
+        sound.play()
+        pygame.time.wait(int(sound.get_length() * 1000))  # Wait for the sound to finish playing
     except FileNotFoundError:
         print(f"{sound_file} file not found.")
     except Exception:
         print("Error with playing notification audio.")
     finally:
-        return
+        pygame.mixer.quit()
